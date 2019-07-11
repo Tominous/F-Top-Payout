@@ -39,7 +39,16 @@ public class Main extends JavaPlugin {
             if (!file.exists()) {
                 getLogger().info("Config.yml not found, creating!");
 
-                saveDefaultConfig();
+                getConfig().addDefault("messages.payout-successful", "&7You have successfully set &c%target &7Store code to &c%code");
+                getConfig().addDefault("messages.target-offline", "&cTarget is currently offline.");
+                getConfig().addDefault("messages.join-message", "&7You were given a &cStore Code &7by staff, do &c/claimpayout &7To claim it.");
+
+                getConfig().addDefault("gui.title", "Payout");
+                getConfig().addDefault("gui.no-code", "&7Store Code: &cNone");
+                getConfig().addDefault("gui.code", "&7Store Code: %code");
+                getConfig().addDefault("gui.item-name", "&c&lPayout Code");
+                getConfig().options().copyDefaults(true);
+                saveConfig();
             } else {
                 getLogger().info("Config.yml found, loading!");
             }

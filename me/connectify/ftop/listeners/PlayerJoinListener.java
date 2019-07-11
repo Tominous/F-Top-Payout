@@ -20,7 +20,7 @@ public class PlayerJoinListener implements Listener {
         Player player = e.getPlayer();
 
         if (main.getConfig().get("players." + player.getName()) != null) {
-            player.sendMessage(Constants.translate("&7You were given a &cStore Code &7by staff, do &c/claimpayout &7To claim it."));
+            player.sendMessage(Constants.translate(main.getConfig().getString("messages.join-message")));
         }
 
     }

@@ -28,7 +28,7 @@ public class ClaimPayoutCommand implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
 
-            Inventory payout = Bukkit.createInventory(player, 9, "Payout");
+            Inventory payout = Bukkit.createInventory(player, 9, main.getConfig().getString("gui.title"));
 
             ItemStack item = new ItemStack(Material.BOOK);
             ItemMeta itemMeta = item.getItemMeta();
@@ -36,12 +36,12 @@ public class ClaimPayoutCommand implements CommandExecutor {
 
             lore.add("");
             if (main.getConfig().get("players." + player.getName()) != null) {
-                lore.add(Constants.translate("&7Store Code: &c" + main.getConfig().get("players." + player.getName())));
+                lore.add(Constants.translate(main.getConfig().getString("gui.code")).replace("%code", main.getConfig().getString("players." + player.getName())));
             } else {
-                lore.add(Constants.translate("&7Store Code: &cNone"));
+                lore.add(Constants.translate(main.getConfig().getString("gui.no-code")));
             }
             itemMeta.setLore(lore);
-            itemMeta.setDisplayName(Constants.translate("&c&lPayout Code"));
+            itemMeta.setDisplayName(Constants.translate(main.getConfig().getString("gui.item-name")));
             item.setItemMeta(itemMeta);
             payout.setItem(4, item);
 
