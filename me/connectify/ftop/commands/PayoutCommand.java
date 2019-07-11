@@ -28,7 +28,7 @@ public class PayoutCommand implements CommandExecutor {
 
                         main.getConfig().set("players." + target.getName(), args[1]);
                         main.saveConfig();
-                        player.sendMessage(Constants.translate("&7You have successfully set &c" + target.getName() + " &7Code store to " + args[1]));
+                        player.sendMessage(Constants.translate("&7You have successfully set &c" + target.getName() + " &7Store code to " + args[1]));
                     } else {
                         player.sendMessage(Constants.translate("&cTarget is currently offline."));
                     }
