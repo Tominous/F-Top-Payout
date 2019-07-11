@@ -1,0 +1,10 @@
+name: FTop-Payout
+main: me.connectify.ftop.Main
+version: 1.0
+author: Connectify
+description: Simple plugin for the VailMC Network by Connectify.
+commands:
+   payout:
+    aliases: [setstorecode]
+
+   claimpayout:
