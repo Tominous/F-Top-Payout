@@ -3,6 +3,7 @@ package me.connectify.ftop;
 import me.connectify.ftop.commands.ClaimPayoutCommand;
 import me.connectify.ftop.commands.PayoutCommand;
 import me.connectify.ftop.listeners.InventoryListener;
+import me.connectify.ftop.listeners.PlayerJoinListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -25,6 +26,7 @@ public class Main extends JavaPlugin {
 
     private void registerListeners() {
         Bukkit.getPluginManager().registerEvents(new InventoryListener(), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(this), this);
 
     }
 
