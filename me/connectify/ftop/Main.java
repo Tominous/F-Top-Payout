@@ -17,10 +17,6 @@ public class Main extends JavaPlugin {
 
     }
 
-    public void onDisable() {
-
-    }
-
     private void registerCommands() {
         getCommand("payout").setExecutor(new PayoutCommand(this));
         getCommand("claimpayout").setExecutor(new ClaimPayoutCommand(this));
