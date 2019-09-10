@@ -5,6 +5,7 @@ import me.connectify.ftop.commands.PayoutCommand;
 import me.connectify.ftop.listeners.InventoryListener;
 import me.connectify.ftop.listeners.PlayerJoinListener;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -15,7 +16,6 @@ public class Main extends JavaPlugin {
         createConfig();
         registerCommands();
         registerListeners();
-
     }
 
     private void registerCommands() {
@@ -25,8 +25,10 @@ public class Main extends JavaPlugin {
     }
 
     private void registerListeners() {
-        Bukkit.getPluginManager().registerEvents(new InventoryListener(this), this);
-        Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(this), this);
+        PluginManager pluginManager = Bukkit.getPluginManager();
+
+        pluginManager.registerEvents(new InventoryListener(this), this);
+        pluginManager.registerEvents(new PlayerJoinListener(this), this);
 
     }
 
@@ -49,13 +51,11 @@ public class Main extends JavaPlugin {
                 getConfig().addDefault("gui.item-name", "&c&lPayout Code");
                 getConfig().options().copyDefaults(true);
                 saveConfig();
-            } else {
-                getLogger().info("Config.yml found, loading!");
+                return;
             }
+            getLogger().info("Config.yml found, loading!");
         } catch (Exception e) {
             e.printStackTrace();
-
         }
-
     }
 }

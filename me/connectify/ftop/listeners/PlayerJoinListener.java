@@ -22,6 +22,5 @@ public class PlayerJoinListener implements Listener {
         if (main.getConfig().get("players." + player.getName()) != null) {
             player.sendMessage(Constants.translate(main.getConfig().getString("messages.join-message")));
         }
-
     }
 }
