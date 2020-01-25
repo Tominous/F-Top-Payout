@@ -1,23 +1,21 @@
 package me.connectify.ftop.listeners;
 
-import me.connectify.ftop.Main;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class InventoryListener implements Listener {
 
-    private Main main;
+    private final FileConfiguration config;
 
-    public InventoryListener(Main main) {
-        this.main = main;
+    public InventoryListener(FileConfiguration config) {
+        this.config = config;
     }
 
-    @EventHandler
-    public void onInventoryClick(InventoryClickEvent e) {
+    @EventHandler void onInventoryClick(InventoryClickEvent e) {
+        if (!e.getInventory().getTitle().equalsIgnoreCase(config.getString("gui.title"))) return;
 
-        if (e.getInventory().getTitle().equalsIgnoreCase(main.getConfig().getString("gui.title"))) {
-            e.setCancelled(true);
-        }
+        e.setCancelled(true);
     }
 }

@@ -1,26 +1,25 @@
 package me.connectify.ftop.listeners;
 
-import me.connectify.ftop.Main;
-import me.connectify.ftop.utils.Constants;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import static me.connectify.ftop.utils.Constants.translate;
+
 public class PlayerJoinListener implements Listener {
 
-    private Main main;
+    private final FileConfiguration config;
 
-    public PlayerJoinListener(Main main) {
-        this.main = main;
+    public PlayerJoinListener(FileConfiguration config) {
+        this.config = config;
     }
 
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent e) {
+    @EventHandler void onPlayerJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
+        if (config.get("players." + player.getName()) == null) return;
 
-        if (main.getConfig().get("players." + player.getName()) != null) {
-            player.sendMessage(Constants.translate(main.getConfig().getString("messages.join-message")));
-        }
+        player.sendMessage(translate(config.getString("messages.join-message")));
     }
 }

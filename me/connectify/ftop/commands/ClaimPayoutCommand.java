@@ -1,56 +1,46 @@
 package me.connectify.ftop.commands;
 
-import me.connectify.ftop.Main;
-import me.connectify.ftop.utils.Constants;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
+
+import static me.connectify.ftop.utils.Constants.translate;
 
 public class ClaimPayoutCommand implements CommandExecutor {
 
-    private Main main;
+    private final FileConfiguration config;
 
-    public ClaimPayoutCommand(Main main) {
-        this.main = main;
+    public ClaimPayoutCommand(FileConfiguration config) {
+        this.config = config;
     }
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-        //Console checking
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
-            Inventory payout = Bukkit.createInventory(player, 9, main.getConfig().getString("gui.title"));
-            ItemStack item = new ItemStack(Material.BOOK);
-            List<String> lore = new ArrayList<>();
+    @Override public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+        if (!(sender instanceof Player)) return true;
 
-            ItemMeta itemMeta = item.getItemMeta();
-            //Checking if a player has a code or not
-            if (main.getConfig().get("players." + player.getName()) != null) {
-                lore.add(Constants.translate(main.getConfig().getString("gui.code")).replace("%code", main.getConfig().getString("players." + player.getName())));
-            } else {
-                lore.add(Constants.translate(main.getConfig().getString("gui.no-code")));
-            }
+        Inventory payout = Bukkit.createInventory(null, 9, config.getString("gui.title"));
+        ItemStack itemStack = new ItemStack(Material.BOOK);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        Player player = (Player) sender;
 
-            //Setting the lore based on the results
-            itemMeta.setLore(lore);
-            itemMeta.setDisplayName(Constants.translate(main.getConfig().getString("gui.item-name")));
-            item.setItemMeta(itemMeta);
-            payout.setItem(4, item);
-
-            //Opening inventory
-            player.openInventory(payout);
-            return true;
+        if (config.get("players." + player.getName()) != null) {
+            itemMeta.setLore(Collections.singletonList(translate(config.getString("gui.code")).replace("%code", config.getString("players." + player.getName()))));
+        } else {
+            itemMeta.setLore(Collections.singletonList(translate(config.getString("gui.no-code"))));
         }
-        sender.sendMessage(Constants.PLAYER_ONLY);
+
+        itemMeta.setDisplayName(translate(config.getString("gui.item-name")));
+        itemStack.setItemMeta(itemMeta);
+        payout.setItem(4, itemStack);
+        player.openInventory(payout);
         return true;
     }
 }
